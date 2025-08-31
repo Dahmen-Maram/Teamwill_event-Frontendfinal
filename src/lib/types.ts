@@ -3,7 +3,7 @@ export interface User {
   nom:string
   email: string
   username: string
-  role: "Responsable" | "Employee"
+  role: "Responsable" | "Employee" | "Admin"
   avatarUrl?: string
   phone?: string
   address?: string
@@ -13,6 +13,49 @@ export interface User {
   joinedAt?: string
   location?: string
 }
+export type TaskStatus = "PENDING" | "ACCEPTED" | "REFUSED" | "IN_PROGRESS" | "COMPLETED";
+
+export interface Task {
+  id: string;
+  title: string;
+  description: string;
+  status: TaskStatus;
+  assignedTo: User;
+  event: Event;
+  deadline?: Date;
+  isDone: boolean;
+  isAccepted: boolean;
+  acceptedAt?: Date;
+  completedAt?: Date;
+  progressPercentage?: number;
+}
+
+export interface CreateTaskDto {
+  title: string;
+  description: string;
+  deadline?: Date;
+}
+
+export interface TaskProgress {
+  eventId: string;
+  eventTitle: string;
+  totalTasks: number;
+  acceptedTasks: number;
+  completedTasks: number;
+  progressPercentage: number;
+  tasks: Task[];
+}
+
+export interface EventTaskProgress {
+  eventId: string;
+  eventTitle: string;
+  totalTasks: number;
+  acceptedTasks: number;
+  completedTasks: number;
+  progressPercentage: number;
+  tasks: Task[];
+}
+
 
 export interface Event {
   id: string;
@@ -24,11 +67,16 @@ export interface Event {
   capacite: number;
   organisateur: User; // au singulier, comme dans le backend
   imageUrl?: string;
-  status?: "PENDING" | "PUBLISHED" | "CANCELLED" | "REJECTED" | "DONE";
+  status?: "PENDING" | "PUBLISHED" | "CANCELLED" | "DONE";
   participants?: Participant[];
   currentParticipants?: number;
   isRegistered?: boolean;
   tags?: string[];
+  formUrl?: string;
+  sheetId?: string | null;
+  isPrivate?: boolean;
+  invitedIds?: string[];
+  
 }
 
 export interface CreateParticipantDto {
@@ -40,7 +88,7 @@ export interface Participant {
   id: string
   user: User
   event: Event
-  status: "PENDING" | "APPROVED" | "REJECTED"
+  status: "PENDING" | "APPROVED"
   registeredAt: Date
 }
 export interface ChatMessage {

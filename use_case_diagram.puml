@@ -1,0 +1,264 @@
+@startuml Event Management System - Use Case Diagram
+
+!theme plain
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+skinparam usecaseBackgroundColor #F0F8FF
+skinparam usecaseBorderColor #4169E1
+skinparam actorBackgroundColor #E6F3FF
+skinparam actorBorderColor #4169E1
+
+title Event Management System - Diagramme de Cas d'Utilisation
+
+' Acteurs
+:Employé: as Employee
+:Responsable Marketing: as Marketing
+:Administrateur: as Admin
+:Système de Chat: as ChatSystem <<system>>
+:Système IA: as AISystem <<system>>
+:API Externe: as ExternalAPI <<system>>
+
+' Packages pour organiser les cas d'utilisation
+package "Authentification et Gestion de Profil" {
+  usecase "S'inscrire" as UC_Register
+  usecase "Se connecter" as UC_Login
+  usecase "Se déconnecter" as UC_Logout
+  usecase "Réinitialiser mot de passe" as UC_ResetPassword
+  usecase "Modifier profil" as UC_UpdateProfile
+  usecase "Changer mot de passe" as UC_ChangePassword
+  usecase "Gérer avatar" as UC_ManageAvatar
+}
+
+package "Gestion des Événements - Employé" {
+  usecase "Consulter événements disponibles" as UC_ViewEvents
+  usecase "Rechercher événements" as UC_SearchEvents
+  usecase "Filtrer événements" as UC_FilterEvents
+  usecase "S'inscrire à un événement" as UC_RegisterEvent
+  usecase "Voir détails événement" as UC_ViewEventDetails
+  usecase "Consulter mes inscriptions" as UC_ViewMyRegistrations
+  usecase "Annuler inscription" as UC_CancelRegistration
+  usecase "Consulter événements privés" as UC_ViewPrivateEvents
+}
+
+package "Gestion des Événements - Marketing" {
+  usecase "Créer événement" as UC_CreateEvent
+  usecase "Modifier événement" as UC_UpdateEvent
+  usecase "Supprimer événement" as UC_DeleteEvent
+  usecase "Publier événement" as UC_PublishEvent
+  usecase "Annuler événement" as UC_CancelEvent
+  usecase "Gérer participants" as UC_ManageParticipants
+  usecase "Approuver/Rejeter inscriptions" as UC_ApproveRegistrations
+  usecase "Créer événement privé" as UC_CreatePrivateEvent
+  usecase "Inviter participants" as UC_InviteParticipants
+  usecase "Consulter statistiques" as UC_ViewStatistics
+  usecase "Exporter données événement" as UC_ExportEventData
+  usecase "Gérer images événement" as UC_ManageEventImages
+  usecase "Crop images" as UC_CropImages
+}
+
+package "Système de Tâches" {
+  usecase "Créer tâche" as UC_CreateTask
+  usecase "Assigner tâche" as UC_AssignTask
+  usecase "Consulter mes tâches" as UC_ViewMyTasks
+  usecase "Accepter tâche" as UC_AcceptTask
+  usecase "Refuser tâche" as UC_RefuseTask
+  usecase "Marquer tâche terminée" as UC_CompleteTask
+  usecase "Suivre statut tâches" as UC_TrackTaskStatus
+}
+
+package "Communication et Chat" {
+  usecase "Rejoindre chat événement" as UC_JoinEventChat
+  usecase "Envoyer message" as UC_SendMessage
+  usecase "Recevoir messages" as UC_ReceiveMessages
+  usecase "Partager fichiers" as UC_ShareFiles
+  usecase "Consulter historique chat" as UC_ViewChatHistory
+  usecase "Ajouter participants au chat" as UC_AddChatParticipants
+  usecase "Recevoir notifications" as UC_ReceiveNotifications
+  usecase "Marquer messages comme lus" as UC_MarkMessagesRead
+}
+
+package "Fonctionnalités IA et Vocal" {
+  usecase "Enregistrement vocal" as UC_VoiceRecording
+  usecase "Transcription automatique" as UC_VoiceTranscription
+  usecase "Génération contenu IA" as UC_AIContentGeneration
+  usecase "Extraction données vocales" as UC_ExtractVoiceData
+}
+
+package "Administration Système" {
+  usecase "Importer utilisateurs CSV" as UC_ImportUsersCSV
+  usecase "Gérer tous les utilisateurs" as UC_ManageAllUsers
+  usecase "Modérer événements" as UC_ModerateEvents
+  usecase "Consulter logs système" as UC_ViewSystemLogs
+  usecase "Gérer paramètres système" as UC_ManageSystemSettings
+  usecase "Sauvegarder données" as UC_BackupData
+}
+
+package "Tableau de Bord et Reporting" {
+  usecase "Tableau de bord employé" as UC_EmployeeDashboard
+  usecase "Tableau de bord marketing" as UC_MarketingDashboard
+  usecase "Tableau de bord admin" as UC_AdminDashboard
+  usecase "Statistiques participation" as UC_ParticipationStats
+  usecase "Graphiques analytiques" as UC_AnalyticsCharts
+  usecase "Rapports d'activité" as UC_ActivityReports
+}
+
+package "Gestion Multilingue" {
+  usecase "Changer langue interface" as UC_ChangeLanguage
+  usecase "Traduction contenu" as UC_TranslateContent
+}
+
+' Relations Employé
+Employee --> UC_Register
+Employee --> UC_Login
+Employee --> UC_Logout
+Employee --> UC_UpdateProfile
+Employee --> UC_ChangePassword
+Employee --> UC_ManageAvatar
+Employee --> UC_ViewEvents
+Employee --> UC_SearchEvents
+Employee --> UC_FilterEvents
+Employee --> UC_RegisterEvent
+Employee --> UC_ViewEventDetails
+Employee --> UC_ViewMyRegistrations
+Employee --> UC_CancelRegistration
+Employee --> UC_ViewPrivateEvents
+Employee --> UC_ViewMyTasks
+Employee --> UC_AcceptTask
+Employee --> UC_RefuseTask
+Employee --> UC_CompleteTask
+Employee --> UC_JoinEventChat
+Employee --> UC_SendMessage
+Employee --> UC_ReceiveMessages
+Employee --> UC_ShareFiles
+Employee --> UC_ViewChatHistory
+Employee --> UC_ReceiveNotifications
+Employee --> UC_MarkMessagesRead
+Employee --> UC_EmployeeDashboard
+Employee --> UC_ChangeLanguage
+
+' Relations Responsable Marketing
+Marketing --> UC_Register
+Marketing --> UC_Login
+Marketing --> UC_Logout
+Marketing --> UC_UpdateProfile
+Marketing --> UC_ChangePassword
+Marketing --> UC_ManageAvatar
+Marketing --> UC_CreateEvent
+Marketing --> UC_UpdateEvent
+Marketing --> UC_DeleteEvent
+Marketing --> UC_PublishEvent
+Marketing --> UC_CancelEvent
+Marketing --> UC_ManageParticipants
+Marketing --> UC_ApproveRegistrations
+Marketing --> UC_CreatePrivateEvent
+Marketing --> UC_InviteParticipants
+Marketing --> UC_ViewStatistics
+Marketing --> UC_ExportEventData
+Marketing --> UC_ManageEventImages
+Marketing --> UC_CropImages
+Marketing --> UC_CreateTask
+Marketing --> UC_AssignTask
+Marketing --> UC_TrackTaskStatus
+Marketing --> UC_JoinEventChat
+Marketing --> UC_SendMessage
+Marketing --> UC_ReceiveMessages
+Marketing --> UC_ShareFiles
+Marketing --> UC_ViewChatHistory
+Marketing --> UC_AddChatParticipants
+Marketing --> UC_ReceiveNotifications
+Marketing --> UC_VoiceRecording
+Marketing --> UC_VoiceTranscription
+Marketing --> UC_AIContentGeneration
+Marketing --> UC_ExtractVoiceData
+Marketing --> UC_MarketingDashboard
+Marketing --> UC_ParticipationStats
+Marketing --> UC_AnalyticsCharts
+Marketing --> UC_ActivityReports
+Marketing --> UC_ChangeLanguage
+
+' Relations Administrateur
+Admin --> UC_Login
+Admin --> UC_Logout
+Admin --> UC_UpdateProfile
+Admin --> UC_ChangePassword
+Admin --> UC_ImportUsersCSV
+Admin --> UC_ManageAllUsers
+Admin --> UC_ModerateEvents
+Admin --> UC_ViewSystemLogs
+Admin --> UC_ManageSystemSettings
+Admin --> UC_BackupData
+Admin --> UC_AdminDashboard
+Admin --> UC_ChangeLanguage
+
+' Relations avec systèmes externes
+ChatSystem --> UC_ReceiveMessages
+ChatSystem --> UC_SendMessage
+ChatSystem --> UC_ReceiveNotifications
+
+AISystem --> UC_VoiceTranscription
+AISystem --> UC_AIContentGeneration
+AISystem --> UC_ExtractVoiceData
+
+ExternalAPI --> UC_ImportUsersCSV
+ExternalAPI --> UC_ManageEventImages
+ExternalAPI --> UC_BackupData
+
+' Relations d'inclusion et d'extension
+UC_CreateEvent ..> UC_ManageEventImages : <<include>>
+UC_CreateEvent ..> UC_VoiceRecording : <<extend>>
+UC_CreateEvent ..> UC_AIContentGeneration : <<extend>>
+UC_UpdateEvent ..> UC_ManageEventImages : <<include>>
+UC_UpdateEvent ..> UC_CropImages : <<include>>
+
+UC_RegisterEvent ..> UC_ReceiveNotifications : <<include>>
+UC_ApproveRegistrations ..> UC_ReceiveNotifications : <<include>>
+
+UC_JoinEventChat ..> UC_ReceiveMessages : <<include>>
+UC_SendMessage ..> UC_ReceiveNotifications : <<include>>
+
+UC_VoiceRecording ..> UC_VoiceTranscription : <<include>>
+UC_VoiceTranscription ..> UC_ExtractVoiceData : <<include>>
+
+UC_ViewStatistics ..> UC_ParticipationStats : <<include>>
+UC_ViewStatistics ..> UC_AnalyticsCharts : <<include>>
+
+UC_MarketingDashboard ..> UC_ViewStatistics : <<include>>
+UC_EmployeeDashboard ..> UC_ViewMyRegistrations : <<include>>
+UC_AdminDashboard ..> UC_ManageAllUsers : <<include>>
+
+UC_Login ..> UC_ChangeLanguage : <<extend>>
+UC_UpdateProfile ..> UC_ManageAvatar : <<extend>>
+
+' Notes explicatives
+note right of Employee
+  L'employé peut consulter et s'inscrire 
+  aux événements, gérer ses tâches
+  et participer aux chats d'événements
+end note
+
+note right of Marketing
+  Le responsable marketing gère 
+  l'ensemble du cycle de vie des 
+  événements, des tâches et des 
+  communications
+end note
+
+note right of Admin
+  L'administrateur supervise 
+  le système et gère les 
+  utilisateurs en masse
+end note
+
+note bottom of ChatSystem
+  Système de chat temps réel 
+  avec Socket.IO pour la 
+  communication instantanée
+end note
+
+note bottom of AISystem
+  Intelligence artificielle pour 
+  la transcription vocale et 
+  la génération de contenu
+end note
+
+@enduml

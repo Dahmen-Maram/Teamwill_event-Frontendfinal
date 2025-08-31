@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState, useRef, useEffect, useCallback } from "react"
 import { useForm } from "react-hook-form"
-import { Camera, Save, Eye, EyeOff } from "lucide-react"
+import { Camera, Save, Eye, EyeOff, Trash2 } from "lucide-react"
 import { Button } from "@/shared/ui/button"
 import { Input } from "@/shared/ui/input"
 import { Label } from "@/shared/ui/label"
@@ -30,6 +30,7 @@ export function ProfileForm({ user, onUserUpdate }: ProfileFormProps) {
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false)
   const [isChangingPassword, setIsChangingPassword] = useState(false)
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false)
+  const [isDeletingAvatar, setIsDeletingAvatar] = useState(false)
   const [showPasswords, setShowPasswords] = useState({
     current: false,
     new: false,
@@ -90,7 +91,7 @@ export function ProfileForm({ user, onUserUpdate }: ProfileFormProps) {
   const newPassword = watch("newPassword")
 
   const validateTeamWillEmail = (email: string) => {
-    return email.includes("@teamwill") || email.includes("@teamwillgroup")
+    return email.includes("@teamwill") || email.includes("@teamwillgroup")|| email.includes("@admin")
   }
 
   const validatePhoneNumber = (phone: string) => {
@@ -184,6 +185,29 @@ export function ProfileForm({ user, onUserUpdate }: ProfileFormProps) {
     setErrorMessage(null)
   }
 
+  // Supprimer l'avatar
+  const onDeleteAvatar = async () => {
+    if (!user?.id) return
+    
+    try {
+      setIsDeletingAvatar(true)
+      setErrorMessage(null)
+      
+      // Appel API pour supprimer l'avatar
+      await apiService.deleteAvatar(user.id)
+      
+      // Mettre à jour l'utilisateur localement
+      const updatedUser = { ...user, avatarUrl: undefined }
+      onUserUpdate(updatedUser)
+      setSuccessMessage(t("profile.avatarDeleted"))
+    } catch (error) {
+      console.error("Delete avatar error:", error)
+      setErrorMessage(t("common.error"))
+    } finally {
+      setIsDeletingAvatar(false)
+    }
+  }
+
   const formatJoinedDate = (dateString?: string) => {
     if (!dateString) return ""
     return new Intl.DateTimeFormat(t("common.locale") || "fr-FR", {
@@ -225,15 +249,29 @@ export function ProfileForm({ user, onUserUpdate }: ProfileFormProps) {
             )}
           </div>
           <div>
-            <Button
-              onClick={() => fileInputRef.current?.click()}
-              disabled={isUploadingAvatar || isCropping}
-              variant="outline"
-              className="mb-2"
-            >
-              <Camera className="h-4 w-4 mr-2" />
-              {t("profile.changeAvatar")}
-            </Button>
+            <div className="flex gap-2 mb-2">
+              <Button
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isUploadingAvatar || isCropping || isDeletingAvatar}
+                variant="outline"
+              >
+                <Camera className="h-4 w-4 mr-2" />
+                {t("profile.changeAvatar")}
+              </Button>
+              <Button
+                onClick={onDeleteAvatar}
+                disabled={!user.avatarUrl || isUploadingAvatar || isCropping || isDeletingAvatar}
+                variant="outline"
+                className="text-destructive hover:text-destructive"
+              >
+                {isDeletingAvatar ? (
+                  <LoadingSpinner size="sm" />
+                ) : (
+                  <Trash2 className="h-4 w-4 mr-2" />
+                )}
+                {t("profile.deleteAvatar")}
+              </Button>
+            </div>
             <p className="text-sm text-muted-foreground">JPG, PNG ou GIF. Max 5MB.</p>
             <input
               ref={fileInputRef}
@@ -241,7 +279,7 @@ export function ProfileForm({ user, onUserUpdate }: ProfileFormProps) {
               accept="image/jpeg,image/jpg,image/png,image/gif"
               onChange={onSelectFile}
               className="hidden"
-              disabled={isUploadingAvatar || isCropping}
+              disabled={isUploadingAvatar || isCropping || isDeletingAvatar}
             />
           </div>
         </CardContent>

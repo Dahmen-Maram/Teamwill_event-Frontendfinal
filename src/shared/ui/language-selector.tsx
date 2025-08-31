@@ -24,25 +24,30 @@ export function LanguageSelector({ variant = "ghost", size = "default", showText
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant={variant} size={size} className="gap-2">
-          <Globe className="h-4 w-4" />
+        <Button 
+          variant={variant} 
+          size={size} 
+          className="gap-0.5 sm:gap-1 md:gap-2 h-6 w-6 sm:h-8 sm:w-8 md:h-auto md:w-auto p-0.5 sm:p-1 md:p-2 min-w-0"
+          aria-label="Changer de langue"
+        >
+          <Globe className="h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-4 md:w-4" />
           {showText && currentLanguage && (
             <>
-              <span className="hidden sm:inline">{currentLanguage.flag}</span>
-              <span className="hidden md:inline">{currentLanguage.name}</span>
+              <span className="hidden md:inline">{currentLanguage.flag}</span>
+              <span className="hidden lg:inline">{currentLanguage.name}</span>
             </>
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" className="min-w-[90px] sm:min-w-[120px]">
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang.code}
             onClick={() => setLanguage(lang.code)}
-            className={`flex items-center gap-2 ${language === lang.code ? "bg-accent" : ""}`}
+            className={`flex items-center gap-1 sm:gap-2 ${language === lang.code ? "bg-accent" : ""}`}
           >
-            <span>{lang.flag}</span>
-            <span>{lang.name}</span>
+            <span className="text-xs sm:text-sm">{lang.flag}</span>
+            <span className="text-xs sm:text-sm">{lang.name}</span>
             {language === lang.code && <span className="ml-auto text-xs">✓</span>}
           </DropdownMenuItem>
         ))}

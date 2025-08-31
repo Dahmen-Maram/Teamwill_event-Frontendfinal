@@ -42,15 +42,16 @@ export function EventCard({
   const isRegistered =
     event.participants?.some((p: any) => {
       const participantUserId = p.userId ?? p.user?.id
-      return participantUserId === currentUserId
+      return participantUserId === currentUserId && (p.status === "APPROVED" || p.status === "PENDING")
     }) ?? false
 
   const eventStatus = event.status?.toUpperCase() ?? "DRAFT"
-  const canRegister = eventStatus === "PUBLISHED"
+  const isInvited = event.isPrivate && event.invitedIds?.includes(currentUserId ?? "")
+  const canRegister = eventStatus === "PUBLISHED" || isInvited
 
   const tags = event.tags ?? []
   const currentParticipants = Array.isArray(event.participants)
-    ? event.participants.length
+    ? event.participants.filter((p: any) => ["APPROVED", "PENDING"].includes(p.status)).length
     : 0
   const isFull = currentParticipants >= (event.capacite ?? 0)
 
@@ -64,8 +65,7 @@ export function EventCard({
         return <Badge variant="default">{t("events.draft")}</Badge>
       case "PENDING":
         return <Badge variant="secondary">{t("events.pending")}</Badge>
-      case "REJECTED":
-        return <Badge variant="destructive">{t("events.rejected")}</Badge>
+
       case "CANCELLED":
         return <Badge variant="destructive">{t("events.cancelled")}</Badge>
       default:
@@ -131,11 +131,11 @@ export function EventCard({
       <CardContent className="space-y-3">
         {event.imageUrl && (
           <div className="relative h-32 rounded-md overflow-hidden">
-            <img
-              src={event.imageUrl}
-              alt={event.titre}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            />
+                    <img
+          src={event.imageUrl}
+          alt={event.titre}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
           </div>
         )}
 

@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   try {
     const json = await request.json()
 
-    const upstreamRes = await fetch("https://437ae64f64f6.ngrok-free.app/generate", {
+    const upstreamRes = await fetch("https://99ce36385219.ngrok-free.app/generate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

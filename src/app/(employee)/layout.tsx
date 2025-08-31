@@ -2,47 +2,34 @@
 
 import type React from "react"
 
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Header } from "@/components/layout/header"
 import { LoadingSpinner } from "@/shared/ui/loading-spinner"
-import { apiService } from "@/lib/api"
-import type { User } from "@/lib/api"
+import { useAuth } from "@/modules/auth/auth-context"
 
 export default function EmployeeLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const [user, setUser] = useState<any>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const { user, loading, logout } = useAuth()
   const router = useRouter()
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const currentUser = await apiService.getCurrentUser()
-        if (currentUser.role !== "Employee") {
-          router.push("/marketing")
-          return
-        }
-        setUser(currentUser)
-      } catch (error) {
-        router.push("/auth/login")
-      } finally {
-        setIsLoading(false)
-      }
+    if (!loading && user && user.role !== "Employee") {
+      const target = user.role === "Responsable" ? "/marketing" : user.role === "Admin" ? "/admin" : "/";
+      router.push(target)
     }
-
-    checkAuth()
-  }, [router])
+  }, [loading, user, router])
 
   const handleLogout = () => {
-    apiService.logout()
+    logout()
     router.push("/auth/login")
   }
 
-  if (isLoading) {
+  // Afficher un spinner pendant le chargement
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <LoadingSpinner size="lg" />
@@ -50,6 +37,7 @@ export default function EmployeeLayout({
     )
   }
 
+  // Si pas d'utilisateur après le chargement, ne rien afficher
   if (!user) {
     return null
   }

@@ -29,6 +29,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
 
   const refresh = async () => {
+    setLoading(true)
     try {
       const me = await apiService.getCurrentUser()
       setUser(me)
@@ -42,19 +43,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     refresh()
   }, [])
-
+  
   // Redirect to login when not authenticated
-  useEffect(() => {
-    if (!loading && !user) {
-      if (pathname !== '/auth/login' && pathname !== '/auth/register' && pathname !== '/') {
-        router.replace('/auth/login')
-      }
-    }
-  }, [loading, user, pathname])
-
+  // useEffect(() => {
+  //   if (!loading && !user) {
+  //     if (pathname !== '/auth/login' && pathname !== '/auth/register' && pathname !== '/') {
+  //       router.replace('/auth/login')
+  //     }
+  //   }
+  // }, [loading, user, pathname])
+  
   const logout = () => {
     apiService.logout()
     setUser(null)
+    setLoading(false)
   }
 
   return (

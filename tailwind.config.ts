@@ -18,6 +18,14 @@ const config = {
         "2xl": "1400px",
       },
     },
+    screens: {
+      'xs': '475px',
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1536px',
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",
@@ -26,14 +34,14 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#16a34a", // green-600
+          DEFAULT: "#96ab52", // new green color
           foreground: "#ffffff",
-          50: "#f0fdf4",
-          100: "#dcfce7",
-          500: "#22c55e",
-          600: "#16a34a",
-          700: "#15803d",
-          900: "#14532d",
+          50: "#f7f8f2",
+          100: "#eef1e5",
+          500: "#96ab52",
+          600: "#8a9d4a",
+          700: "#7e8f42",
+          900: "#6b7a37",
         },
         secondary: {
           DEFAULT: "#f1f5f9", // slate-100
@@ -61,6 +69,18 @@ const config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        green: {
+          50: "#f7f8f2",
+          100: "#eef1e5",
+          200: "#dde3d0",
+          300: "#cbd5bb",
+          400: "#b9c7a6",
+          500: "#96ab52",
+          600: "#8a9d4a",
+          700: "#7e8f42",
+          800: "#6b7a37",
+          900: "#5a662f",
         },
       },
       borderRadius: {

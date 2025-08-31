@@ -168,7 +168,7 @@ export default function ResetPasswordPage() {
               </Button>
 
               <div className="text-center">
-                <a href="/auth/login" className="text-sm text-green-600 hover:underline">
+                <a href="/auth/login" className="text-sm text-primary hover:underline">
                   {t("auth.backToLogin") || "Retour à la connexion"}
                 </a>
               </div>

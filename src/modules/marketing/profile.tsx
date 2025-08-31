@@ -6,35 +6,21 @@ import { Button } from "@/shared/ui/button"
 import { LoadingSpinner } from "@/shared/ui/loading-spinner"
 import { ProfileForm } from "@/components/profile/profile-form"
 import { useLanguage } from "@/lib/i18n"
-import { apiService } from "@/lib/api"
 import type { User } from "@/lib/types"
 import Link from "next/link"
+import { useAuth } from "../auth/auth-context"
+
 
 export default function MarketingProfilePage() {
   const { t } = useLanguage()
-  const [user, setUser] = useState<User | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const { user, loading, refresh } = useAuth()
+  
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const currentUser = await apiService.getCurrentUser()
-        setUser(currentUser)
-      } catch (error) {
-        console.error("Error fetching user:", error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchUser()
-  }, [])
-
-  const handleUserUpdate = (updatedUser: User) => {
-    setUser(updatedUser)
+  const handleUserUpdate = async (updated: User) => {
+    await refresh()
   }
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <LoadingSpinner size="lg" />

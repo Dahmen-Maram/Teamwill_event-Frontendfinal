@@ -1,40 +1,24 @@
 "use client"
 
-import { useState, useEffect } from "react"
+
 import { ArrowLeft } from "lucide-react"
 import { Button } from "@/shared/ui/button"
 import { LoadingSpinner } from "@/shared/ui/loading-spinner"
 import { ProfileForm } from "@/components/profile/profile-form"
 import { useLanguage } from "@/lib/i18n"
-import { apiService } from "@/lib/api"
+import { useAuth } from "@/modules/auth/auth-context"
 import type { User } from "@/lib/types"
 import Link from "next/link"
 
 export default function EmployeeProfilePage() {
   const { t } = useLanguage()
-  const [user, setUser] = useState<User | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const { user, loading, refresh } = useAuth()
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const currentUser = await apiService.getCurrentUser()
-        setUser(currentUser as User)
-      } catch (error) {
-        console.error("Error fetching user:", error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchUser()
-  }, [])
-
-  const handleUserUpdate = (updatedUser: User) => {
-    setUser(updatedUser)
+  const handleUserUpdate = async (updated: User) => {
+    await refresh()
   }
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <LoadingSpinner size="lg" />
@@ -49,7 +33,7 @@ export default function EmployeeProfilePage() {
       </div>
     )
   }
- console.log(user)
+
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Header */}

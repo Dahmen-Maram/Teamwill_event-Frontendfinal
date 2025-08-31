@@ -10,7 +10,7 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 142 76% 36%;
+    --primary: 75 32% 50%;
     --primary-foreground: 355 100% 97%;
     --secondary: 210 40% 98%;
     --secondary-foreground: 222.2 84% 4.9%;
@@ -22,7 +22,7 @@
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 142 76% 36%;
+    --ring: 75 32% 50%;
     --radius: 0.5rem;
   }
 
@@ -33,7 +33,7 @@
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 142 76% 36%;
+    --primary: 75 32% 50%;
     --primary-foreground: 355 100% 97%;
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -45,7 +45,29 @@
     --destructive-foreground: 210 40% 98%;
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 142 76% 36%;
+    --ring: 75 32% 50%;
+  }
+
+  .eco:not(.light):not(.dark) {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 95%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 0 0% 90%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 0% 0%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 85%;
+    --input: 0 0% 85%;
+    --ring: 0 0% 0%;
   }
 }
 
@@ -74,10 +96,104 @@
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #16a34a, #84cc16);
+  background: linear-gradient(135deg, #96ab52, #84cc16);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+}
+
+/* Force black text for mention suggestions */
+.mention-suggestion {
+  color: #000000 !important;
+}
+
+/* Force white background on hover for mention suggestions */
+.hover\\:bg-gray-100:hover {
+  --tw-bg-opacity: 1;
+  background-color: #ffffff;
+}
+/* Updated mention suggestions styling - Black background */
+.mention-suggestion {
+  color: #ffffff !important;
+  background-color: #000000 !important;
+}
+
+/* Black background for mention suggestions container */
+.absolute.z-50.bg-white.shadow-md.rounded.mt-1.w-full.border.max-h-48.overflow-auto {
+  background-color: #000000 !important;
+  border-color: #333333 !important;
+}
+
+/* Black background for mention suggestions in dark mode */
+.dark .absolute.z-50.bg-white.dark\:bg-gray-800.shadow-md.rounded.mt-1.w-full.border.dark\:border-gray-700.max-h-48.overflow-auto {
+  background-color: #000000 !important;
+  border-color: #333333 !important;
+}
+
+/* White text on black background for mention items */
+.p-2.hover\:bg-gray-100.cursor-pointer.text-sm {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.p-2.hover\:bg-gray-100.cursor-pointer.text-sm:hover {
+  background-color: #333333 !important;
+  color: #ffffff !important;
+}
+
+/* Dark mode mention suggestions with black background */
+.dark .p-2.hover\:bg-gray-100.cursor-pointer.text-sm {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.dark .p-2.hover\:bg-gray-100.cursor-pointer.text-sm:hover {
+  background-color: #333333 !important;
+  color: #ffffff !important;
+}
+
+/* Force black background for any mention suggestion containers */
+[class*="mention"] {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+[class*="mention"]:hover {
+  background-color: #333333 !important;
+  color: #ffffff !important;
+}
+
+/* Specific targeting for the mention dropdown in your React component */
+.absolute.z-50[class*="bg-white"] {
+  background-color: #000000 !important;
+  border-color: #333333 !important;
+}
+
+.absolute.z-50[class*="bg-white"] .p-2 {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.absolute.z-50[class*="bg-white"] .p-2:hover {
+  background-color: #333333 !important;
+  color: #ffffff !important;
+}
+
+/* Dark mode: black background for mention suggestions */
+.dark .hover\\:bg-gray-100:hover {
+  --tw-bg-opacity: 1;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* Dark mode: black background for mention suggestions container */
+.dark .p-2.hover\\:bg-gray-100.cursor-pointer.text-sm {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Dark mode: black background for mention suggestions with higher contrast */
+.dark .p-2.hover\\:bg-gray-100.cursor-pointer.text-sm:hover {
+  background-color: #000000 !important;
+  color: #ffffff !important;
 }
 
 .animate-gradient {
@@ -162,6 +278,643 @@ html {
   color: hsl(var(--primary-foreground));
 }
 
+/* Eco theme specific styles - Crayon drawing effect */
+.eco:not(.light):not(.dark) {
+  /* Paper texture background */
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(0,0,0,0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(0,0,0,0.05) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(0,0,0,0.03) 0%, transparent 50%),
+    #f5f5f5 !important;
+}
+
+/* Create event page specific background for eco mode */
+.eco:not(.light):not(.dark) [data-page="create-event"],
+.eco:not(.light):not(.dark) .create-event-page,
+.eco:not(.light):not(.dark) .create-event-container {
+  background: #f0f0f0 !important;
+}
+
+/* Ensure eco styles only apply when eco class is present and not combined with light/dark */
+.eco:not(.light):not(.dark) * {
+  /* Crayon-like colors */
+  color: #8b8989 !important; /* Changed from #2c2c2c for better contrast */
+  background-color: transparent !important;
+}
+
+/* Ensure eco styles only apply when eco class is present */
+.eco:not(.light):not(.dark) .bg-gradient-to-br,
+.eco:not(.light):not(.dark) .bg-gradient-to-tr,
+.eco:not(.light):not(.dark) .bg-gradient-to-tl,
+.eco:not(.light):not(.dark) .bg-gradient-to-bl {
+  background: 
+    linear-gradient(45deg, #f5f5f5 0%, #e8e8e8 50%, #f5f5f5 100%) !important;
+}
+
+.eco:not(.light):not(.dark) .text-primary,
+.eco:not(.light):not(.dark) .text-accent,
+.eco:not(.light):not(.dark) .text-green-600,
+.eco:not(.light):not(.dark) .text-green-500,
+.eco:not(.light):not(.dark) .text-blue-600,
+.eco:not(.light):not(.dark) .text-blue-500 {
+  color: #1a1a1a !important;
+}
+
+.eco:not(.light):not(.dark) .bg-primary,
+.eco:not(.light):not(.dark) .bg-accent,
+.eco:not(.light):not(.dark) .bg-green-600,
+.eco:not(.light):not(.dark) .bg-green-500,
+.eco:not(.light):not(.dark) .bg-blue-600,
+.eco:not(.light):not(.dark) .bg-blue-500 {
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      #1a1a1a,
+      #1a1a1a 2px,
+      #2c2c2c 2px,
+      #2c2c2c 4px
+    ) !important;
+  color: #f5f5f5 !important;
+  border: 2px solid #1a1a1a !important;
+}
+
+.eco:not(.light):not(.dark) .border-primary,
+.eco:not(.light):not(.dark) .border-accent,
+.eco:not(.light):not(.dark) .border-green-600,
+.eco:not(.light):not(.dark) .border-green-500 {
+  border-color: #1a1a1a !important;
+  border-style: solid !important;
+  border-width: 2px !important;
+}
+
+/* Crayon drawing effect for images and icons */
+.eco:not(.light):not(.dark) img,
+.eco:not(.light):not(.dark) svg {
+  filter: 
+    grayscale(100%) 
+    contrast(150%) 
+    brightness(0.8)
+    sepia(20%)
+    hue-rotate(0deg);
+  opacity: 0.9;
+}
+
+/* Crayon texture for shadows */
+.eco:not(.light):not(.dark) .shadow,
+.eco:not(.light):not(.dark) .shadow-sm,
+.eco:not(.light):not(.dark) .shadow-md,
+.eco:not(.light):not(.dark) .shadow-lg,
+.eco:not(.light):not(.dark) .shadow-xl {
+  box-shadow: 
+    3px 3px 0px rgba(0,0,0,0.2),
+    6px 6px 0px rgba(0,0,0,0.1) !important;
+  border: 2px solid #1a1a1a !important;
+  background: #f8f8f8 !important;
+}
+
+/* Crayon-style buttons */
+.eco:not(.light):not(.dark) button {
+  border: 2px solid #1a1a1a !important;
+  background: 
+    linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%) !important;
+  color: #3f3f3f !important; /* Ensure button text is white */
+  box-shadow: 
+    2px 2px 0px rgba(0,0,0,0.2),
+    4px 4px 0px rgba(0,0,0,0.1) !important;
+  transition: all 0.2s ease !important;
+}
+
+.eco:not(.light):not(.dark) button:hover {
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      #1a1a1a,
+      #1a1a1a 2px,
+      #2c2c2c 2px,
+      #2c2c2c 4px
+    ) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 
+    3px 3px 0px rgba(0,0,0,0.3),
+    6px 6px 0px rgba(0,0,0,0.2) !important;
+}
+
+/* Crayon-style cards */
+.eco:not(.light):not(.dark) .card,
+.eco:not(.light):not(.dark) [class*="card"] {
+  border: 2px solid #1a1a1a !important;
+  background: 
+    linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%) !important;
+  box-shadow: 
+    4px 4px 0px rgba(0,0,0,0.15),
+    8px 8px 0px rgba(0,0,0,0.1) !important;
+}
+
+/* Crayon texture backgrounds */
+.eco:not(.light):not(.dark) .bg-background {
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(0,0,0,0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(0,0,0,0.05) 0%, transparent 50%),
+    #fafafa !important;
+}
+
+.eco:not(.light):not(.dark) .bg-muted {
+  background: #1a1a1a !important;
+  color: #f5f5f5 !important;
+}
+
+.eco:not(.light):not(.dark) .bg-secondary {
+  background: 
+    linear-gradient(135deg, #e8e8e8 0%, #d8d8d8 100%) !important;
+}
+
+/* Crayon text styles */
+.eco:not(.light):not(.dark) .text-foreground {
+  color: #5a5959 !important; /* Changed from #1a1a1a for better contrast */
+}
+
+.eco:not(.light):not(.dark) .text-muted-foreground {
+  color: #e7e7e7 !important; /* Changed from #666666 for better contrast */
+}
+
+/* Special crayon effect for logo */
+.eco:not(.light):not(.dark) .gradient-text {
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: unset !important;
+  background-clip: unset !important;
+  color: #1a1a1a !important;
+  font-weight: 900 !important;
+}
+
+
+
+/* Crayon texture for inputs */
+.eco:not(.light):not(.dark) input,
+.eco:not(.light):not(.dark) textarea,
+.eco:not(.light):not(.dark) select {
+  border: 2px solid #1a1a1a !important;
+  background: 
+    linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%) !important;
+  box-shadow: 
+    2px 2px 0px rgba(0,0,0,0.1) !important;
+}
+
+/* Crayon effect for badges */
+.eco:not(.light):not(.dark) .badge {
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      #1a1a1a,
+      #1a1a1a 3px,
+      #2c2c2c 3px,
+      #2c2c2c 6px
+    ) !important;
+  color: #f5f5f5 !important;
+  border: 1px solid #1a1a1a !important;
+  box-shadow: 1px 1px 0px rgba(0,0,0,0.2) !important;
+}
+
+/* Crayon effect for dropdowns */
+.eco:not(.light):not(.dark) [data-radix-popper-content-wrapper] {
+  border: 2px solid #1a1a1a !important;
+  background: 
+    linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%) !important;
+  box-shadow: 
+    4px 4px 0px rgba(0,0,0,0.2),
+    8px 8px 0px rgba(0,0,0,0.1) !important;
+}
+
+/* Crayon effect for avatars */
+.eco:not(.light):not(.dark) .avatar {
+  border: 2px solid #1a1a1a !important;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.2) !important;
+}
+
+/* Crayon effect for navigation */
+.eco:not(.light):not(.dark) nav a {
+  border-bottom: 2px solid transparent !important;
+  transition: all 0.2s ease !important;
+}
+
+.eco:not(.light):not(.dark) nav a:hover {
+  border-bottom-color: #1a1a1a !important;
+  background: 
+    linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%) !important;
+}
+
+.eco:not(.light):not(.dark) nav a.active {
+  border-bottom-color: #1a1a1a !important;
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      #1a1a1a,
+      #1a1a1a 2px,
+      #2c2c2c 2px,
+      #2c2c2c 4px
+    ) !important;
+  color: #f5f5f5 !important;
+}
+
+/* Crayon effect for tables */
+.eco:not(.light):not(.dark) table {
+  border: 2px solid #1a1a1a !important;
+  background: 
+    linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%) !important;
+  box-shadow: 
+    4px 4px 0px rgba(0,0,0,0.15),
+    8px 8px 0px rgba(0,0,0,0.1) !important;
+}
+
+.eco:not(.light):not(.dark) th,
+.eco:not(.light):not(.dark) td {
+  border: 1px solid #1a1a1a !important;
+  background: transparent !important;
+}
+
+/* Crayon effect for progress bars */
+.eco:not(.light):not(.dark) .progress {
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      #e8e8e8,
+      #e8e8e8 5px,
+      #d8d8d8 5px,
+      #d8d8d8 10px
+    ) !important;
+  border: 2px solid #1a1a1a !important;
+}
+
+.eco:not(.light):not(.dark) .progress-bar {
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      #1a1a1a,
+      #1a1a1a 3px,
+      #2c2c2c 3px,
+      #2c2c2c 6px
+    ) !important;
+}
+
+/* Crayon effect for modals */
+.eco:not(.light):not(.dark) .modal,
+.eco:not(.light):not(.dark) [role="dialog"] {
+  border: 3px solid #1a1a1a !important;
+  background: 
+    linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%) !important;
+  box-shadow: 
+    6px 6px 0px rgba(0,0,0,0.2),
+    12px 12px 0px rgba(0,0,0,0.1) !important;
+}
+
+/* Crayon effect for tooltips */
+.eco:not(.light):not(.dark) [data-tooltip],
+.eco:not(.light):not(.dark) [title] {
+  border: 1px solid #1a1a1a !important;
+  background: 
+    linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%) !important;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.2) !important;
+}
+
+/* Crayon effect for loading spinners */
+.eco:not(.light):not(.dark) .spinner,
+.eco:not(.light):not(.dark) .loading {
+  border: 2px solid #e8e8e8 !important;
+  border-top: 2px solid #1a1a1a !important;
+  background: #f5f5f5 !important;
+}
+
+/* Crayon effect for form elements */
+.eco:not(.light):not(.dark) .form-control {
+  border: 2px solid #1a1a1a !important;
+  background: 
+    linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%) !important;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.1) !important;
+}
+
+/* Crayon effect for links */
+.eco:not(.light):not(.dark) a {
+  color: #1a1a1a !important;
+  text-decoration: underline !important;
+  text-decoration-color: #1a1a1a !important;
+  text-decoration-thickness: 2px !important;
+}
+
+.eco:not(.light):not(.dark) a:hover {
+  background: 
+    linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%) !important;
+  text-decoration-color: #000000 !important;
+}
+
+/* Crayon effect for create event page specific elements */
+.eco:not(.light):not(.dark) .tabs-list {
+  border: 2px solid #1a1a1a !important;
+  background: #1a1a1a !important;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.2) !important;
+}
+
+.eco:not(.light):not(.dark) .tabs-trigger {
+  border: 1px solid #1a1a1a !important;
+  background: #1a1a1a !important;
+  color: #f5f5f5 !important;
+  transition: all 0.2s ease !important;
+}
+
+.eco:not(.light):not(.dark) .tabs-trigger[data-state="active"] {
+  background: #000000 !important;
+  color: #ffffff !important;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.3) !important;
+}
+
+.eco:not(.light):not(.dark) .tabs-trigger:hover {
+  background: #2c2c2c !important;
+  box-shadow: 1px 1px 0px rgba(0,0,0,0.2) !important;
+}
+
+/* Crayon effect for voice recorder */
+.eco:not(.light):not(.dark) .voice-recorder {
+  border: 2px solid #1a1a1a !important;
+  background: #1a1a1a !important;
+  box-shadow: 3px 3px 0px rgba(0,0,0,0.2) !important;
+}
+
+.eco:not(.light):not(.dark) .voice-recorder button {
+  border: 2px solid #1a1a1a !important;
+  background: #1a1a1a !important;
+  color: #f5f5f5 !important;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.2) !important;
+}
+
+.eco:not(.light):not(.dark) .voice-recorder button:hover {
+  background: #000000 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 3px 3px 0px rgba(0,0,0,0.3) !important;
+}
+
+/* Crayon effect for transcription and AI content cards */
+.eco:not(.light):not(.dark) .bg-muted\/30,
+.eco:not(.light):not(.dark) .bg-muted\/20,
+.eco:not(.light):not(.dark) .bg-muted\/10 {
+  background: #1a1a1a !important;
+  border: 2px solid #1a1a1a !important;
+  color: #ffffff !important;
+}
+
+/* Crayon effect for file input */
+.eco:not(.light):not(.dark) input[type="file"] {
+  border: 2px solid #1a1a1a !important;
+  background: 
+    linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%) !important;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.1) !important;
+}
+
+/* Crayon effect for image preview */
+.eco:not(.light):not(.dark) img[src*="blob:"] {
+  border: 2px solid #1a1a1a !important;
+  box-shadow: 3px 3px 0px rgba(0,0,0,0.2) !important;
+  background: #f5f5f5 !important;
+}
+
+/* Crayon effect for cropper modal */
+.eco:not(.light):not(.dark) .fixed.inset-0 {
+  background: rgba(0,0,0,0.9) !important;
+}
+
+.eco:not(.light):not(.dark) .cropper-container {
+  border: 2px solid #1a1a1a !important;
+  background: #f5f5f5 !important;
+}
+
+/* Crayon effect for switch component */
+.eco:not(.light):not(.dark) [data-state="checked"] {
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      #1a1a1a,
+      #1a1a1a 3px,
+      #2c2c2c 3px,
+      #2c2c2c 6px
+    ) !important;
+  border: 2px solid #1a1a1a !important;
+}
+
+.eco:not(.light):not(.dark) [data-state="unchecked"] {
+  background: 
+    linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%) !important;
+  border: 2px solid #1a1a1a !important;
+}
+
+/* Crayon effect for loading spinner */
+.eco:not(.light):not(.dark) .loading-spinner {
+  border: 2px solid #e8e8e8 !important;
+  border-top: 2px solid #1a1a1a !important;
+  background: #f5f5f5 !important;
+}
+
+/* Crayon effect for error and success messages */
+.eco:not(.light):not(.dark) .bg-destructive\/10 {
+  background: 
+    linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%) !important;
+  border: 2px solid #1a1a1a !important;
+}
+
+.eco:not(.light):not(.dark) .bg-green-50 {
+  background: 
+    linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%) !important;
+  border: 2px solid #1a1a1a !important;
+}
+
+.eco:not(.light):not(.dark) .text-green-600 {
+  color: #1a1a1a !important;
+}
+
+/* Crayon effect for user list items */
+.eco:not(.light):not(.dark) .hover\:bg-muted\/50:hover {
+  background: #2c2c2c !important;
+  color: #f5f5f5 !important;
+  border: 1px solid #1a1a1a !important;
+}
+
+/* Crayon effect for search icon */
+.eco:not(.light):not(.dark) .text-muted-foreground {
+  color: #777777 !important; /* Changed from #666666 for better contrast */
+}
+
+/* Crayon effect for form labels */
+.eco:not(.light):not(.dark) label {
+  color: #969595 !important;
+  font-weight: 600 !important;
+}
+
+/* Crayon effect for required field asterisk */
+.eco:not(.light):not(.dark) .text-destructive {
+  color: #1a1a1a !important;
+}
+
+/* Crayon effect for placeholder text */
+.eco:not(.light):not(.dark) input::placeholder,
+.eco:not(.light):not(.dark) textarea::placeholder {
+  color: #333333 !important; /* Changed from #666666 for better contrast */
+}
+
+/* Crayon effect for focus states */
+.eco:not(.light):not(.dark) input:focus,
+.eco:not(.light):not(.dark) textarea:focus,
+.eco:not(.light):not(.dark) select:focus {
+  border-color: #1a1a1a !important;
+  box-shadow: 
+    0 0 0 2px rgba(26, 26, 26, 0.2),
+    2px 2px 0px rgba(0,0,0,0.2) !important;
+  outline: none !important;
+}
+
+/* Crayon effect for Radix UI components */
+.eco:not(.light):not(.dark) [data-radix-tabs-list] {
+  border: 2px solid #1a1a1a !important;
+  background: #1a1a1a !important;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.2) !important;
+}
+
+.eco:not(.light):not(.dark) [data-radix-tabs-trigger] {
+  border: 1px solid #1a1a1a !important;
+  background: #1a1a1a !important;
+  color: #f5f5f5 !important;
+  transition: all 0.2s ease !important;
+}
+
+.eco:not(.light):not(.dark) [data-radix-tabs-trigger][data-state="active"] {
+  background: #000000 !important;
+  color: #ffffff !important;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.3) !important;
+}
+
+.eco:not(.light):not(.dark) [data-radix-tabs-trigger]:hover {
+  background: #2c2c2c !important;
+  box-shadow: 1px 1px 0px rgba(0,0,0,0.2) !important;
+}
+
+/* Crayon effect for Radix Switch */
+.eco:not(.light):not(.dark) [data-radix-switch-root] {
+  border: 2px solid #1a1a1a !important;
+  background: 
+    linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%) !important;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.2) !important;
+}
+
+.eco:not(.light):not(.dark) [data-radix-switch-root][data-state="checked"] {
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      #1a1a1a,
+      #1a1a1a 3px,
+      #2c2c2c 3px,
+      #2c2c2c 6px
+    ) !important;
+}
+
+.eco:not(.light):not(.dark) [data-radix-switch-thumb] {
+  background: #f5f5f5 !important;
+  border: 1px solid #1a1a1a !important;
+  box-shadow: 1px 1px 0px rgba(0,0,0,0.2) !important;
+}
+
+/* Crayon effect for Radix Card */
+.eco:not(.light):not(.dark) [data-radix-card] {
+  border: 2px solid #1a1a1a !important;
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+  box-shadow: 
+    4px 4px 0px rgba(0,0,0,0.15),
+    8px 8px 0px rgba(0,0,0,0.1) !important;
+}
+
+/* Crayon effect for Radix Label */
+.eco:not(.light):not(.dark) [data-radix-label] {
+  color: #dcdcdc !important;
+  font-weight: 600 !important;
+}
+
+/* Crayon effect for Radix Input */
+.eco:not(.light):not(.dark) [data-radix-input] {
+  border: 2px solid #1a1a1a !important;
+  background: #1a1a1a !important;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.1) !important;
+  color: #ffffff !important;
+}
+
+.eco:not(.light):not(.dark) [data-radix-input]:focus {
+  border-color: #1a1a1a !important;
+  box-shadow: 
+    0 0 0 2px rgba(26, 26, 26, 0.2),
+    2px 2px 0px rgba(0,0,0,0.2) !important;
+  outline: none !important;
+}
+
+/* Crayon effect for Radix Textarea */
+.eco:not(.light):not(.dark) [data-radix-textarea] {
+  border: 2px solid #1a1a1a !important;
+  background: #1a1a1a !important;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.1) !important;
+  color: #ffffff !important;
+}
+
+.eco:not(.light):not(.dark) [data-radix-textarea]:focus {
+  border-color: #1a1a1a !important;
+  box-shadow: 
+    0 0 0 2px rgba(26, 26, 26, 0.2),
+    2px 2px 0px rgba(0,0,0,0.2) !important;
+  outline: none !important;
+}
+
+/* Crayon effect for Radix Badge */
+.eco:not(.light):not(.dark) [data-radix-badge] {
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      #1a1a1a,
+      #1a1a1a 3px,
+      #2c2c2c 3px,
+      #2c2c2c 6px
+    ) !important;
+  color: #f5f5f5 !important;
+  border: 1px solid #1a1a1a !important;
+  box-shadow: 1px 1px 0px rgba(0,0,0,0.2) !important;
+}
+
+/* Crayon effect for specific class names used in create event page */
+.eco:not(.light):not(.dark) .border-border\/50 {
+  border-color: #1a1a1a !important;
+  border-width: 2px !important;
+}
+
+.eco:not(.light):not(.dark) .shadow-sm {
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.2) !important;
+}
+
+.eco:not(.light):not(.dark) .bg-card\/50 {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+}
+
+.eco:not(.light):not(.dark) .focus\:border-primary:focus {
+  border-color: #1a1a1a !important;
+  box-shadow: 
+    0 0 0 2px rgba(26, 26, 26, 0.2),
+    2px 2px 0px rgba(0,0,0,0.2) !important;
+}
+
+.eco:not(.light):not(.dark) .hover\:bg-muted\/50:hover {
+  background: #2c2c2c !important;
+  color: #f5f5f5 !important;
+}
+
+.eco:not(.light):not(.dark) .border-t {
+  border-top-color: #1a1a1a !important;
+  border-top-width: 2px !important;
+}
+
 /* Improved animations */
 @keyframes fadeInUp {
   from {
@@ -178,19 +931,453 @@ html {
   animation: fadeInUp 0.6s ease-out;
 }
 
-/* Stagger animation delays */
-.animate-stagger-1 {
-  animation-delay: 0.1s;
+/* Eco mode - Create Event text styling for all 3 pages */
+.eco:not(.light):not(.dark) h1.text-2xl.font-semibold,
+.eco:not(.light):not(.dark) h2.text-2xl.font-semibold,
+.eco:not(.light):not(.dark) h3.text-2xl.font-semibold,
+.eco:not(.light):not(.dark) .text-2xl.font-semibold,
+.eco:not(.light):not(.dark) .text-xl.font-semibold,
+.eco:not(.light):not(.dark) .text-lg.font-semibold,
+.eco:not(.light):not(.dark) .font-semibold,
+.eco:not(.light):not(.dark) .font-bold {
+  color: #858585 !important; /* Changed from #666666 for better contrast */
+  font-weight: 900 !important;
 }
 
-.animate-stagger-2 {
-  animation-delay: 0.2s;
+/* Specific targeting for create event page titles */
+.eco:not(.light):not(.dark) [data-page="create-event"] h1,
+.eco:not(.light):not(.dark) [data-page="create-event"] h2,
+.eco:not(.light):not(.dark) [data-page="create-event"] h3,
+.eco:not(.light):not(.dark) .create-event-title,
+.eco:not(.light):not(.dark) .page-title {
+  color: #fffdfd !important; /* Changed from #666666 for better contrast */
+  font-weight: 900 !important;
 }
 
-.animate-stagger-3 {
-  animation-delay: 0.3s;
+/* Target specific text content using data attributes or classes */
+.eco:not(.light):not(.dark) [data-text="create-event"],
+.eco:not(.light):not(.dark) [data-text="create-event-fr"],
+.eco:not(.light):not(.dark) .create-event-text,
+.eco:not(.light):not(.dark) .create-event-title {
+  color: #d7d7d7 !important; /* Changed from #666666 for better contrast */
+  font-weight: 900 !important;
 }
 
-.animate-stagger-4 {
-  animation-delay: 0.4s;
+/* Specific styling for create event page main title */
+.eco:not(.light):not(.dark) h1.text-2xl.font-semibold.text-foreground {
+  color: #919191 !important; /* Changed from #666666 for better contrast */
+  font-weight: 900 !important;
+}
+
+/* Override for any text containing create event in all pages */
+.eco:not(.light):not(.dark) .text-foreground {
+  color: #919191 !important; /* Changed from #666666 for better contrast */
+}
+
+/* Additional targeting for all primary buttons in eco mode */
+.eco:not(.light):not(.dark) .bg-primary {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.3) !important;
+}
+
+.eco:not(.light):not(.dark) .bg-primary:hover {
+  background: #cccccc !important;
+  color: #000000 !important; /* Changed to black for visibility on light background */
+  transform: translateY(-1px) !important;
+  box-shadow: 3px 3px 0px rgba(0,0,0,0.4) !important;
+}
+
+/* Specific styling for Create Event button text in eco mode - ONLY TEXT */
+.eco:not(.light):not(.dark) .create-event-btn .create-event-text {
+  color: #000000 !important;
+  font-weight: 900 !important;
+}
+
+.eco:not(.light):not(.dark) .create-event-btn:hover .create-event-text {
+  color: #000000 !important;
+  font-weight: 900 !important;
+}
+
+/* Remove button styling to keep original button appearance */
+.eco:not(.light):not(.dark) .create-event-btn {
+  background: revert !important;
+  color: revert !important;
+  border: revert !important;
+  box-shadow: revert !important;
+}
+
+.eco:not(.light):not(.dark) .create-event-btn:hover {
+  background: revert !important;
+  color: revert !important;
+  transform: revert !important;
+  box-shadow: revert !important;
+}
+
+/* Chat messages styling for eco mode - ONLY message content, not author names */
+.eco:not(.light):not(.dark) .message-content,
+.eco:not(.light):not(.dark) .chat-message,
+.eco:not(.light):not(.dark) [data-message],
+.eco:not(.light):not(.dark) .message-text,
+.eco:not(.light):not(.dark) .message,
+.eco:not(.light):not(.dark) .chat,
+.eco:not(.light):not(.dark) .conversation,
+.eco:not(.light):not(.dark) .msg,
+.eco:not(.light):not(.dark) .text,
+.eco:not(.light):not(.dark) p,
+.eco:not(.light):not(.dark) .p,
+.eco:not(.light):not(.dark) .content,
+.eco:not(.light):not(.dark) .body,
+.eco:not(.light):not(.dark) .description,
+.eco:not(.light):not(.dark) .comment,
+.eco:not(.light):not(.dark) .reply,
+.eco:not(.light):not(.dark) .response,
+.eco:not(.light):not(.dark) [class*="message"] *:not([class*="name"]):not([class*="user"]):not([class*="author"]):not([class*="sender"]),
+.eco:not(.light):not(.dark) [class*="chat"] *:not([class*="name"]):not([class*="user"]):not([class*="author"]):not([class*="sender"]),
+.eco:not(.light):not(.dark) [class*="msg"] *:not([class*="name"]):not([class*="user"]):not([class*="author"]):not([class*="sender"]),
+.eco:not(.light):not(.dark) [class*="conversation"] *:not([class*="name"]):not([class*="user"]):not([class*="author"]):not([class*="sender"]),
+.eco:not(.light):not(.dark) [class*="discussion"] *:not([class*="name"]):not([class*="user"]):not([class*="author"]):not([class*="sender"]),
+.eco:not(.light):not(.dark) [class*="thread"] *:not([class*="name"]):not([class*="user"]):not([class*="author"]):not([class*="sender"]),
+.eco:not(.light):not(.dark) [class*="message"]:not([class*="title"]):not([class*="header"]):not([class*="label"]) *:not([class*="name"]):not([class*="user"]):not([class*="author"]):not([class*="sender"]) {
+  color: #515151 !important;
+}
+
+/* Names and user information styling for eco mode */
+.eco:not(.light):not(.dark) .name,
+.eco:not(.light):not(.dark) .username,
+.eco:not(.light):not(.dark) .user-name,
+.eco:not(.light):not(.dark) .author,
+.eco:not(.light):not(.dark) .sender,
+.eco:not(.light):not(.dark) .user,
+.eco:not(.light):not(.dark) .person,
+.eco:not(.light):not(.dark) .participant,
+.eco:not(.light):not(.dark) .member,
+.eco:not(.light):not(.dark) .contact,
+.eco:not(.light):not(.dark) .profile,
+.eco:not(.light):not(.dark) .avatar-name,
+.eco:not(.light):not(.dark) .user-info,
+.eco:not(.light):not(.dark) .user-details,
+.eco:not(.light):not(.dark) .nom,
+.eco:not(.light):not(.dark) .prenom,
+.eco:not(.light):not(.dark) .full-name,
+.eco:not(.light):not(.dark) .display-name,
+.eco:not(.light):not(.dark) .message-author,
+.eco:not(.light):not(.dark) .message-sender,
+.eco:not(.light):not(.dark) .chat-author,
+.eco:not(.light):not(.dark) .chat-sender,
+.eco:not(.light):not(.dark) .msg-author,
+.eco:not(.light):not(.dark) .msg-sender,
+.eco:not(.light):not(.dark) .conversation-author,
+.eco:not(.light):not(.dark) .conversation-sender,
+.eco:not(.light):not(.dark) .message .name,
+.eco:not(.light):not(.dark) .message .username,
+.eco:not(.light):not(.dark) .message .author,
+.eco:not(.light):not(.dark) .message .sender,
+.eco:not(.light):not(.dark) .chat .name,
+.eco:not(.light):not(.dark) .chat .username,
+.eco:not(.light):not(.dark) .chat .author,
+.eco:not(.light):not(.dark) .chat .sender,
+.eco:not(.light):not(.dark) .msg .name,
+.eco:not(.light):not(.dark) .msg .username,
+.eco:not(.light):not(.dark) .msg .author,
+.eco:not(.light):not(.dark) .msg .sender,
+.eco:not(.light):not(.dark) .conversation .name,
+.eco:not(.light):not(.dark) .conversation .username,
+.eco:not(.light):not(.dark) .conversation .author,
+.eco:not(.light):not(.dark) .conversation .sender,
+.eco:not(.light):not(.dark) .discussion .name,
+.eco:not(.light):not(.dark) .discussion .username,
+.eco:not(.light):not(.dark) .discussion .author,
+.eco:not(.light):not(.dark) .discussion .sender,
+.eco:not(.light):not(.dark) .thread .name,
+.eco:not(.light):not(.dark) .thread .username,
+.eco:not(.light):not(.dark) .thread .author,
+.eco:not(.light):not(.dark) .thread .sender,
+.eco:not(.light):not(.dark) [class*="name"] *,
+.eco:not(.light):not(.dark) [class*="user"] *,
+.eco:not(.light):not(.dark) [class*="author"] *,
+.eco:not(.light):not(.dark) [class*="sender"] *,
+.eco:not(.light):not(.dark) [class*="person"] *,
+.eco:not(.light):not(.dark) [class*="participant"] *,
+.eco:not(.light):not(.dark) [class*="member"] *,
+.eco:not(.light):not(.dark) [class*="contact"] *,
+.eco:not(.light):not(.dark) [class*="profile"] *,
+.eco:not(.light):not(.dark) [class*="nom"] *,
+.eco:not(.light):not(.dark) [class*="prenom"] *,
+.eco:not(.light):not(.dark) [class*="message-author"] *,
+.eco:not(.light):not(.dark) [class*="message-sender"] *,
+.eco:not(.light):not(.dark) [class*="chat-author"] *,
+.eco:not(.light):not(.dark) [class*="chat-sender"] *,
+.eco:not(.light):not(.dark) [class*="msg-author"] *,
+.eco:not(.light):not(.dark) [class*="msg-sender"] *,
+.eco:not(.light):not(.dark) [class*="conversation-author"] *,
+.eco:not(.light):not(.dark) [class*="conversation-sender"] *,
+.eco:not(.light):not(.dark) [class*="message"] [class*="name"],
+.eco:not(.light):not(.dark) [class*="message"] [class*="user"],
+.eco:not(.light):not(.dark) [class*="message"] [class*="author"],
+.eco:not(.light):not(.dark) [class*="message"] [class*="sender"],
+.eco:not(.light):not(.dark) [class*="chat"] [class*="name"],
+.eco:not(.light):not(.dark) [class*="chat"] [class*="user"],
+.eco:not(.light):not(.dark) [class*="chat"] [class*="author"],
+.eco:not(.light):not(.dark) [class*="chat"] [class*="sender"],
+.eco:not(.light):not(.dark) [class*="msg"] [class*="name"],
+.eco:not(.light):not(.dark) [class*="msg"] [class*="user"],
+.eco:not(.light):not(.dark) [class*="msg"] [class*="author"],
+.eco:not(.light):not(.dark) [class*="msg"] [class*="sender"],
+.eco:not(.light):not(.dark) [class*="conversation"] [class*="name"],
+.eco:not(.light):not(.dark) [class*="conversation"] [class*="user"],
+.eco:not(.light):not(.dark) [class*="conversation"] [class*="author"],
+.eco:not(.light):not(.dark) [class*="conversation"] [class*="sender"],
+.eco:not(.light):not(.dark) [class*="discussion"] [class*="name"],
+.eco:not(.light):not(.dark) [class*="discussion"] [class*="user"],
+.eco:not(.light):not(.dark) [class*="discussion"] [class*="author"],
+.eco:not(.light):not(.dark) [class*="discussion"] [class*="sender"],
+.eco:not(.light):not(.dark) [class*="thread"] [class*="name"],
+.eco:not(.light):not(.dark) [class*="thread"] [class*="user"],
+.eco:not(.light):not(.dark) [class*="thread"] [class*="author"],
+.eco:not(.light):not(.dark) [class*="thread"] [class*="sender"] {
+  color: #ffffff !important;
+}
+
+/* Employee chat specific selectors for eco mode */
+.eco:not(.light):not(.dark) [class*="employee"] [class*="name"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="user"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="author"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="sender"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="person"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="participant"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="member"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="contact"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="profile"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="nom"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="prenom"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="full-name"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="display-name"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="message-author"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="message-sender"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="chat-author"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="chat-sender"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="msg-author"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="msg-sender"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="conversation-author"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="conversation-sender"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="discussion-author"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="discussion-sender"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="thread-author"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="thread-sender"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="name"] *,
+.eco:not(.light):not(.dark) [class*="employee"] [class*="user"] *,
+.eco:not(.light):not(.dark) [class*="employee"] [class*="author"] *,
+.eco:not(.light):not(.dark) [class*="employee"] [class*="sender"] *,
+.eco:not(.light):not(.dark) [class*="employee"] [class*="person"] *,
+.eco:not(.light):not(.dark) [class*="employee"] [class*="participant"] *,
+.eco:not(.light):not(.dark) [class*="employee"] [class*="member"] *,
+.eco:not(.light):not(.dark) [class*="employee"] [class*="contact"] *,
+.eco:not(.light):not(.dark) [class*="employee"] [class*="profile"] *,
+.eco:not(.light):not(.dark) [class*="employee"] [class*="nom"] *,
+.eco:not(.light):not(.dark) [class*="employee"] [class*="prenom"] *,
+.eco:not(.light):not(.dark) [class*="employee"] [class*="message-author"] *,
+.eco:not(.light):not(.dark) [class*="employee"] [class*="message-sender"] *,
+.eco:not(.light):not(.dark) [class*="employee"] [class*="chat-author"] *,
+.eco:not(.light):not(.dark) [class*="employee"] [class*="chat-sender"] *,
+.eco:not(.light):not(.dark) [class*="employee"] [class*="msg-author"] *,
+.eco:not(.light):not(.dark) [class*="employee"] [class*="msg-sender"] *,
+.eco:not(.light):not(.dark) [class*="employee"] [class*="conversation-author"] *,
+.eco:not(.light):not(.dark) [class*="employee"] [class*="conversation-sender"] *,
+.eco:not(.light):not(.dark) [class*="employee"] h1,
+.eco:not(.light):not(.dark) [class*="employee"] h2,
+.eco:not(.light):not(.dark) [class*="employee"] h3,
+.eco:not(.light):not(.dark) [class*="employee"] h4,
+.eco:not(.light):not(.dark) [class*="employee"] h5,
+.eco:not(.light):not(.dark) [class*="employee"] h6 {
+  color: #ffffff !important;
+}
+
+/* Chat and media hover effects for eco mode */
+.eco:not(.light):not(.dark) [class*="message"]:hover,
+.eco:not(.light):not(.dark) [class*="chat"]:hover,
+.eco:not(.light):not(.dark) [class*="msg"]:hover,
+.eco:not(.light):not(.dark) [class*="conversation"]:hover,
+.eco:not(.light):not(.dark) [class*="discussion"]:hover,
+.eco:not(.light):not(.dark) [class*="thread"]:hover,
+.eco:not(.light):not(.dark) [class*="media"]:hover,
+.eco:not(.light):not(.dark) [class*="video"]:hover,
+.eco:not(.light):not(.dark) [class*="audio"]:hover,
+.eco:not(.light):not(.dark) [class*="image"]:hover,
+.eco:not(.light):not(.dark) [class*="photo"]:hover,
+.eco:not(.light):not(.dark) [class*="file"]:hover {
+  background: #f8f8f8 !important;
+  border: 2px solid #e0e0e0 !important;
+  box-shadow: 4px 4px 0px #d0d0d0 !important;
+  transform: translateY(-1px) !important;
+  transition: all 0.2s ease !important;
+}
+
+.eco:not(.light):not(.dark) [class*="message"]:hover *,
+.eco:not(.light):not(.dark) [class*="chat"]:hover *,
+.eco:not(.light):not(.dark) [class*="msg"]:hover *,
+.eco:not(.light):not(.dark) [class*="conversation"]:hover *,
+.eco:not(.light):not(.dark) [class*="discussion"]:hover *,
+.eco:not(.light):not(.dark) [class*="thread"]:hover *,
+.eco:not(.light):not(.dark) [class*="media"]:hover *,
+.eco:not(.light):not(.dark) [class*="video"]:hover *,
+.eco:not(.light):not(.dark) [class*="audio"]:hover *,
+.eco:not(.light):not(.dark) [class*="image"]:hover *,
+.eco:not(.light):not(.dark) [class*="photo"]:hover *,
+.eco:not(.light):not(.dark) [class*="file"]:hover * {
+  color: #000000 !important;
+}
+
+/* Override for sidebar and navigation in employee pages - keep text black */
+.eco:not(.light):not(.dark) [class*="sidebar"] *,
+.eco:not(.light):not(.dark) [class*="nav"] *,
+.eco:not(.light):not(.dark) [class*="navigation"] *,
+.eco:not(.light):not(.dark) [class*="menu"] *,
+.eco:not(.light):not(.dark) [class*="aside"] *,
+.eco:not(.light):not(.dark) [class*="sidebar"] h1,
+.eco:not(.light):not(.dark) [class*="sidebar"] h2,
+.eco:not(.light):not(.dark) [class*="sidebar"] h3,
+.eco:not(.light):not(.dark) [class*="sidebar"] h4,
+.eco:not(.light):not(.dark) [class*="sidebar"] h5,
+.eco:not(.light):not(.dark) [class*="sidebar"] h6,
+.eco:not(.light):not(.dark) [class*="sidebar"] span,
+.eco:not(.light):not(.dark) [class*="sidebar"] div,
+.eco:not(.light):not(.dark) [class*="sidebar"] p,
+.eco:not(.light):not(.dark) [class*="sidebar"] a,
+.eco:not(.light):not(.dark) [class*="nav"] h1,
+.eco:not(.light):not(.dark) [class*="nav"] h2,
+.eco:not(.light):not(.dark) [class*="nav"] h3,
+.eco:not(.light):not(.dark) [class*="nav"] h4,
+.eco:not(.light):not(.dark) [class*="nav"] h5,
+.eco:not(.light):not(.dark) [class*="nav"] h6,
+.eco:not(.light):not(.dark) [class*="nav"] span,
+.eco:not(.light):not(.dark) [class*="nav"] div,
+.eco:not(.light):not(.dark) [class*="nav"] p,
+.eco:not(.light):not(.dark) [class*="nav"] a,
+.eco:not(.light):not(.dark) [class*="dropdown"] *,
+.eco:not(.light):not(.dark) [class*="profile"] *,
+.eco:not(.light):not(.dark) [class*="user"] *,
+.eco:not(.light):not(.dark) [class*="avatar"] *,
+.eco:not(.light):not(.dark) [class*="menu"] [class*="name"],
+.eco:not(.light):not(.dark) [class*="menu"] [class*="user"],
+.eco:not(.light):not(.dark) [class*="menu"] [class*="profile"],
+.eco:not(.light):not(.dark) [class*="dropdown"] [class*="name"],
+.eco:not(.light):not(.dark) [class*="dropdown"] [class*="user"],
+.eco:not(.light):not(.dark) [class*="dropdown"] [class*="profile"],
+.eco:not(.light):not(.dark) [class*="sidebar"] [class*="name"],
+.eco:not(.light):not(.dark) [class*="sidebar"] [class*="user"],
+.eco:not(.light):not(.dark) [class*="sidebar"] [class*="profile"],
+.eco:not(.light):not(.dark) [class*="nav"] [class*="name"],
+.eco:not(.light):not(.dark) [class*="nav"] [class*="user"],
+.eco:not(.light):not(.dark) [class*="nav"] [class*="profile"],
+.eco:not(.light):not(.dark) header [class*="user"] *,
+.eco:not(.light):not(.dark) header [class*="name"] *,
+.eco:not(.light):not(.dark) header [class*="profile"] *,
+.eco:not(.light):not(.dark) header [class*="dropdown"] *,
+.eco:not(.light):not(.dark) header [class*="menu"] *,
+.eco:not(.light):not(.dark) header [class*="avatar"] *,
+.eco:not(.light):not(.dark) header p,
+.eco:not(.light):not(.dark) header span,
+.eco:not(.light):not(.dark) header div,
+.eco:not(.light):not(.dark) [data-radix-popper-content-wrapper] *,
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] *,
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu-content] *,
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu-item] *,
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu-trigger] *,
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu-separator] *,
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu-label] *,
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu-group] *,
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu-sub] *,
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu-sub-trigger] *,
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu-sub-content] *,
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu-checkbox-item] *,
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu-radio-item] *,
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu-radio-group] *,
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu-portal] *,
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu-root] *,
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="name"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="user"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="profile"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="avatar"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="email"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="role"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="position"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="title"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="fonction"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="poste"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="titre"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="nom"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="prenom"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="full-name"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="display-name"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="username"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="user-name"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="person"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="participant"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="member"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="contact"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="author"],
+.eco:not(.light):not(.dark) [data-radix-dropdown-menu] [class*="sender"] {
+  color: #767676 !important;
+}
+
+/* Target only responsible/employee names in eco mode */
+.eco:not(.light):not(.dark) [class*="responsable"],
+.eco:not(.light):not(.dark) [class*="employee"],
+.eco:not(.light):not(.dark) [class*="manager"],
+.eco:not(.light):not(.dark) [class*="admin"],
+.eco:not(.light):not(.dark) [class*="supervisor"],
+.eco:not(.light):not(.dark) [class*="leader"],
+.eco:not(.light):not(.dark) [class*="chief"],
+.eco:not(.light):not(.dark) [class*="director"],
+.eco:not(.light):not(.dark) [class*="head"],
+.eco:not(.light):not(.dark) [class*="boss"],
+.eco:not(.light):not(.dark) [class*="coordinator"],
+.eco:not(.light):not(.dark) [class*="superviseur"],
+.eco:not(.light):not(.dark) [class*="gestionnaire"],
+.eco:not(.light):not(.dark) [class*="chef"],
+.eco:not(.light):not(.dark) [class*="directeur"],
+.eco:not(.light):not(.dark) [class*="coordinateur"],
+.eco:not(.light):not(.dark) [class*="responsable"] [class*="name"],
+.eco:not(.light):not(.dark) [class*="responsable"] [class*="user"],
+.eco:not(.light):not(.dark) [class*="responsable"] [class*="author"],
+.eco:not(.light):not(.dark) [class*="responsable"] [class*="sender"],
+.eco:not(.light):not(.dark) [class*="responsable"] [class*="person"],
+.eco:not(.light):not(.dark) [class*="responsable"] [class*="nom"],
+.eco:not(.light):not(.dark) [class*="responsable"] [class*="prenom"],
+.eco:not(.light):not(.dark) [class*="responsable"] [class*="full-name"],
+.eco:not(.light):not(.dark) [class*="responsable"] [class*="display-name"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="name"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="user"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="author"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="sender"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="person"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="nom"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="prenom"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="full-name"],
+.eco:not(.light):not(.dark) [class*="employee"] [class*="display-name"] {
+  color: #ffffff !important;
+}
+
+/* Target specific role indicators */
+.eco:not(.light):not(.dark) [class*="role"],
+.eco:not(.light):not(.dark) [class*="position"],
+.eco:not(.light):not(.dark) [class*="title"],
+.eco:not(.light):not(.dark) [class*="fonction"],
+.eco:not(.light):not(.dark) [class*="poste"],
+.eco:not(.light):not(.dark) [class*="titre"] {
+  color: #ffffff !important;
+}
+
+/* Specific styling for chat bubble user names in eco mode */
+.eco:not(.light):not(.dark) .chat-bubble-username,
+.eco:not(.light):not(.dark) [class*="chat"] .chat-bubble-username,
+.eco:not(.light):not(.dark) [class*="chat"] .chat-bubble-username {
+  color: #000000 !important;
+}
+
+/* Upload CSV title - black in light mode */
+.text-4xl.font-extrabold.tracking-tight.text-white {
+  color: #000000 !important;
 }

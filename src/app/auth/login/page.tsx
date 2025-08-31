@@ -3,7 +3,8 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
-import { Eye, EyeOff, LogIn } from "lucide-react"
+import { Eye, EyeOff,  LogIn } from "lucide-react"
+import { useTheme } from "next-themes"
 import { Button } from "@/shared/ui/button"
 import { Input } from "@/shared/ui/input"
 import { Label } from "@/shared/ui/label"
@@ -11,7 +12,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/sha
 import { Alert, AlertDescription } from "@/shared/ui/alert"
 import { LoadingSpinner } from "@/shared/ui/loading-spinner"
 import { LanguageSelector } from "@/shared/ui/language-selector"
+import { ThemeSelector } from "@/shared/ui/theme-selector"
+import { ThemeLogo } from "@/shared/ui/theme-logo"
 import { apiService } from "@/lib/api"
+import { useAuth } from "@/modules/auth/auth-context"
 import { useLanguage } from "@/lib/i18n"
 
 interface LoginForm {
@@ -25,6 +29,8 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
   const { t } = useLanguage()
+  const { theme } = useTheme()
+  const { refresh } = useAuth()
 
   const {
     register,
@@ -33,7 +39,7 @@ export default function LoginPage() {
   } = useForm<LoginForm>()
 
   const validateTeamWillEmail = (email: string) => {
-    return email.includes("@teamwill") || email.includes("@teamwillgroup")
+    return email.includes("@teamwill") || email.includes("@teamwillgroup") || email.endsWith("@admin.com")
   }
 
   const onSubmit = async (data: LoginForm) => {
@@ -42,9 +48,9 @@ export default function LoginPage() {
     setError(null)
 
     try {
-      console.log('Login attempt started')
+     
       const response = await apiService.login(data.email, data.motDePasse)
-      console.log('Login successful:', response)
+      
 
       // Ensure token is properly set and stored
       await apiService.setToken(response.access_token)
@@ -52,17 +58,16 @@ export default function LoginPage() {
       // Verify token was set correctly
       const storedToken = apiService.getToken()
       //!! convert to boolean
-      console.log('Token stored:', !!storedToken)
-      console.log('Stored token:', storedToken)
+      
       if (!storedToken) {
         throw new Error('Token not properly stored')
       }
 
-      // Add small delay to ensure token is fully processed
-      await new Promise(resolve => setTimeout(resolve, 100))
+      // Rafraîchir le contexte d'authentification pour mettre à jour l'utilisateur
+      await refresh()
 
-      const redirectPath = response.user.role === "Responsable" ? "/marketing" : "/employee"
-      console.log('Redirecting to:', redirectPath)
+      const redirectPath = response.user.role === "Admin" ? "/admin" : response.user.role === "Responsable" ? "/marketing" : "/employee"
+     
       
       router.replace(redirectPath)
 
@@ -78,26 +83,24 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8">
-        {/* Language Selector */}
-        <div className="flex justify-end">
-          <LanguageSelector showText />
-        </div>
-
         <div className="text-center">
-  <img
-   src="/logo-teamwill.png"
-    alt="Logo TeamwillEvents"
-    className="mx-auto h-12 w-12 rounded-lg mb-4 object-cover"
-  />
-  <h1 className="text-2xl font-bold gradient-text">TeamwillEvents</h1>
-  <p className="text-muted-foreground mt-2">{t("auth.loginTitle")}</p>
-</div>
-
+          <ThemeLogo />
+          <h1 className="text-2xl font-bold gradient-text">TeamwillEvents</h1>
+          <p className="text-muted-foreground mt-2">{t("auth.loginTitle")}</p>
+        </div>
 
         <Card>
           <CardHeader>
-            <CardTitle>{t("auth.login")}</CardTitle>
-            <CardDescription>{t("auth.loginDescription")}</CardDescription>
+            <div className="flex justify-between items-start">
+              <div>
+                <CardTitle>{t("auth.login")}</CardTitle>
+                <CardDescription>{t("auth.loginDescription")}</CardDescription>
+              </div>
+              <div className="flex gap-2">
+                <LanguageSelector />
+                <ThemeSelector />
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -130,7 +133,7 @@ export default function LoginPage() {
                 <div className="relative">
                   <Input
                     id="motDePasse"
-                    type={showmotDePasse ? "text" : "motDePasse"}
+                    type={showmotDePasse ? "text" : "password"}
                     placeholder="••••••••"
                     {...register("motDePasse", {
                       required: t("auth.motDePasseRequired"),
@@ -164,17 +167,17 @@ export default function LoginPage() {
                 )}
               </Button>
               <div className="text-center">
-  <div>
-    <a href="/auth/forgot-password" className="text-sm text-green-600 hover:underline">
-      {t("auth.forgotPassword")}
-    </a>
-  </div>
-  <div>
-    <a href="/auth/register" className="text-sm text-green-600 hover:underline">
-      {t("auth.createAccount")}
-    </a>
-  </div>
-</div>
+                <div>
+                  <a href="/auth/forgot-password" className="text-sm text-primary hover:underline">
+                    {t("auth.forgotPassword")}
+                  </a>
+                </div>
+                <div>
+                  <a href="/auth/register" className="text-sm text-primary hover:underline">
+                    {t("auth.createAccount")}
+                  </a>
+                </div>
+              </div>
 
 
 

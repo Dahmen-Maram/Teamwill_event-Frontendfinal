@@ -1,7 +1,7 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 // Types
-import type { User, Event, Participant } from "@/lib/types";
+import type { User, Event, Participant, Task, TaskStatus, CreateTaskDto, CreateParticipantDto, TaskProgress, EventTaskProgress } from "@/lib/types";
 
 type UpdateProfileData = {
   nom?: string;
@@ -54,16 +54,14 @@ class ApiService {
     }
   }
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-    const token = await this.getToken();
-    console.log("🛡️ Token used:", token);
-  
+    const token = localStorage.getItem("access_token");
     let headers: Record<string, string> = {};
-  
+
     const isFormData = options.body instanceof FormData;
     if (!isFormData) {
       headers["Content-Type"] = "application/json";
     }
-  
+
     if (options.headers) {
       if (options.headers instanceof Headers) {
         options.headers.forEach((value, key) => {
@@ -77,20 +75,37 @@ class ApiService {
         headers = { ...headers, ...(options.headers as Record<string, string>) };
       }
     }
-  
+
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
     }
-  
+
     const config: RequestInit = {
       ...options,
       headers,
     };
-  
+
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
-  
+
+    // Pour les requêtes DELETE, on ne s'attend pas à avoir de contenu
+    if (options.method === "DELETE") {
+      if (!response.ok) {
+        let errorMsg = `API Error: ${response.status}`;
+        try {
+          const text = await response.text();
+          if (text) {
+            const error = JSON.parse(text);
+            if (error?.message) errorMsg = error.message;
+          }
+        } catch {}
+        throw new Error(errorMsg);
+      }
+      // Pour DELETE, retourner un objet vide si succès
+      return {} as T;
+    }
+
     const text = await response.text();
-  
+
     if (!response.ok) {
       let errorMsg = `API Error: ${response.status}`;
       try {
@@ -99,12 +114,12 @@ class ApiService {
       } catch {}
       throw new Error(errorMsg);
     }
-  
+
     if (!text) {
       // Return an empty object casted to T when no body is returned to satisfy typings
       return {} as T;
     }
-  
+
     return JSON.parse(text) as T;
   }
   
@@ -126,7 +141,7 @@ async registerUser(data: {
   email: string;
   motDePasse: string;
   phone: string;
-  role: "Responsable" | "Employee"; // adapte si tu as d'autres rôles
+  role: "Responsable" | "Employee" | "Admin";
   department: string;
   position: string;
   location: string;
@@ -228,9 +243,7 @@ async registerUser(data: {
   async changePassword(currentPassword: string, newPassword: string): Promise<void> {
     const token = await this.getToken();
   
-    console.log("🔐 Calling changePassword:");
-    console.log("🔐 Token:", token);
-    console.log("📤 Payload:", { currentPassword, newPassword });
+
   
     if (!token) {
       throw new Error("No token found. Please login again.");
@@ -262,10 +275,11 @@ async registerUser(data: {
   }
 
   async updateProfile(data: UpdateProfileData): Promise<User> {
-    return this.request("/users", {
+    const result = await this.request<User>("/users", {
       method: "PUT",
       body: JSON.stringify(data),
     });
+    return result;
   }
 
   async uploadAvatar(userId: string, file: File): Promise<{ avatarUrl: string }> {
@@ -285,7 +299,39 @@ async registerUser(data: {
       throw new Error("Upload failed");
     }
 
-    return response.json(); // { avatarUrl: string }
+    const result = await response.json();
+    return result; // { avatarUrl: string }
+  }
+
+  async deleteAvatar(userId: string): Promise<void> {
+    const token = await this.getToken();
+    const response = await fetch(`${API_BASE_URL}/users/avatar`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Delete failed: ${errorText}`);
+    }
+    
+  }
+
+  async deleteEventImage(eventId: string): Promise<void> {
+    const token = await this.getToken();
+    const response = await fetch(`${API_BASE_URL}/events/${eventId}/image`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Delete failed: ${errorText}`);
+    }
   }
   async uploadEventImage(file: File): Promise<{ imageUrl: string }> {
     const token = await this.getToken();
@@ -308,14 +354,23 @@ async registerUser(data: {
   }
 
 
+  async uploadUsersCSV(file: File): Promise<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.request('/users/upload', {
+      method: 'POST',
+      body: formData
+    });
+  }
+  async getParticipantsByUser(userId: string): Promise<Participant[]> {
+    return this.request(`/participants/user/${userId}`)
+  }
+
   async uploadFile(file: File): Promise<{ url: string }> {
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
     const unsignedPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
   
-    console.log("📦 Fichier à uploader:", file);
-    console.log("🌍 CloudName:", cloudName);
-    console.log("🔐 Upload preset:", unsignedPreset);
-    console.log("📁 Type MIME:", file.type);
+    
   
     const formData = new FormData();
     formData.append("file", file);           // <- OBLIGATOIRE : ajouter le fichier
@@ -356,7 +411,7 @@ async registerUser(data: {
       body: formData,
     });
   
-    console.log("📥 Statut réponse backend:", response.status);
+    
   
     if (!response.ok) {
       const errorText = await response.text();
@@ -365,7 +420,7 @@ async registerUser(data: {
     }
   
     const data: any = await response.json();
-    console.log("✅ Réponse backend:", data);
+  
     return { url: data.url || data.secure_url || data.imageUrl };
   }
   
@@ -416,10 +471,26 @@ async registerUser(data: {
   async getEvents(): Promise<Event[]> {
     return this.request("/events");
   }
-
-  async getMyEvents(): Promise<Event[]> {
-    return this.request("/users/me/events");
+  async addParticipant(data: CreateParticipantDto): Promise<Participant> {
+    return this.request("/participants", {
+      method: "POST",
+      body: JSON.stringify(data),
+    })
   }
+  // Dans votre apiService, ajoutez/modifiez ces méthodes :
+
+async getAllUsers(): Promise<User[]> {
+  return this.request("/users", {
+    method: "GET",
+  });
+}
+
+
+
+
+  // async getMyEvents(): Promise<Event[]> {
+  //   return this.request("/users/me/events");
+  // }
 
   /*async getAllEventsFromUsers(): Promise<Event[]> {
     return this.request("/events");
@@ -438,7 +509,11 @@ async registerUser(data: {
     capacite: number;
     organisateurId: string;
     imageUrl?: string;
-    status?: "PENDING" | "PUBLISHED" | "CANCELLED" | "REJECTED" | "DONE";
+    status?: "PENDING" | "PUBLISHED" | "CANCELLED" | "DONE";
+    formUrl?: string;
+    sheetId?: string | null;
+    isPrivate?: boolean;
+    invitedIds?: string[];
   }): Promise<Event> {
     return this.request("/events", {
       method: "POST",
@@ -455,24 +530,9 @@ async registerUser(data: {
   }
 
   async deleteEvent(id: string): Promise<void> {
-    const token = localStorage.getItem("access_token")
-    // ou récupère-le via ton service Auth
-  
-    if (!token) throw new Error("User not authenticated")
-  
-      const response = await fetch(`${API_BASE_URL}/events/${id}`, {
+    return this.request(`/events/${id}`, {
       method: "DELETE",
-      headers: {
-        "Authorization": `Bearer ${token}`,  // très important pour que le backend reconnaisse l'utilisateur
-        "Content-Type": "application/json",
-      },
-    })
-  
-    if (!response.ok) {
-      // Tu peux gérer les cas 401 / 403 plus finement si tu veux
-      const errorText = await response.text()
-      throw new Error(`Failed to delete event: ${errorText || response.statusText}`)
-    }
+    });
   }
   
 
@@ -547,6 +607,10 @@ async registerUser(data: {
     await this.request(`/notifications/user/${userId}/read-all`, { method: 'PATCH' })
   }
 
+  async deleteNotification(notifId: string, userId: string): Promise<void> {
+    await this.request(`/notifications/${notifId}/${userId}`, { method: 'DELETE' })
+  }
+
   // Responsable: récupérer toutes les notifications (ex: messages de tous les salons)
   async getAllNotifications(): Promise<any[]> {
     return this.request(`/notifications`)
@@ -570,6 +634,85 @@ async registerUser(data: {
   // }
 
   // ──────────── LOGOUT ────────────
+/**
+ * Récupère les données d'un Google Sheet publié en lecture publique
+ * @param sheetId ID du Google Sheet (dans l'URL)
+ * @param sheetName Nom de l'onglet à lire (par défaut: "Sheet1")
+ */
+async getGoogleSheetData(sheetId: string, sheetName: string = "Sheet1"): Promise<any[]> {
+  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+
+  const response = await fetch(url);
+  const text = await response.text();
+
+  // Nettoyage : l'API Google retourne du JSON enveloppé dans un JS pseudo-fonction
+  const json = JSON.parse(text.replace(/^\)\]\}\'\n/, ""));
+
+  const cols = json.table.cols.map((col: any) => col.label);
+  const rows = json.table.rows.map((row: any) =>
+    row.c.reduce((acc: any, cell: any, i: number) => {
+      acc[cols[i]] = cell?.v || "";
+      return acc;
+    }, {})
+  );
+
+  return rows;
+}
+
+/**
+ * Récupère les données d'un Google Sheet via l'API backend
+ * @param sheetId ID du Google Sheet
+ */
+  async getSheetData(sheetId: string): Promise<any[]> {
+    // Use direct fetch for Next.js API routes
+    const response = await fetch(`/api/fetch-sheet?sheetId=${sheetId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch sheet data: ${response.status}`);
+    }
+
+    return response.json();
+  }
+
+  // ──────────── SHEET ID MANAGEMENT ────────────
+
+  /**
+   * Get the sheetId for a specific event
+   * @param eventId ID of the event
+   * @returns Object with sheetId (string | null)
+   */
+  async getEventSheetId(eventId: string): Promise<{ sheetId: string | null }> {
+    return this.request(`/events/${eventId}/sheet`);
+  }
+
+  /**
+   * Update the sheetId for a specific event
+   * @param eventId ID of the event
+   * @param sheetId New sheetId to set
+   * @returns Updated event
+   */
+  async updateEventSheetId(eventId: string, sheetId: string): Promise<Event> {
+    return this.request(`/events/${eventId}/sheet`, {
+      method: 'PUT',
+      body: JSON.stringify({ sheetId }),
+    });
+  }
+
+  /**
+   * Remove the sheetId from a specific event
+   * @param eventId ID of the event
+   * @returns Updated event
+   */
+  async deleteEventSheetId(eventId: string): Promise<Event> {
+    return this.request(`/events/${eventId}/sheet`, {
+      method: 'DELETE',
+    });
+  }
 
   logout() {
     this.token = null;
@@ -577,6 +720,90 @@ async registerUser(data: {
       localStorage.removeItem("access_token");
     }
   }
+  // --- TASKS ---
+
+// Créer une tâche (eventId, userId + dto)
+async createTask(eventId: string, userId: string, dto: CreateTaskDto): Promise<Task> {
+  return this.request<Task>(`/tasks/${eventId}/${userId}`, {
+    method: "POST",
+    body: JSON.stringify(dto),
+  });
+}
+
+// Mettre à jour le statut d’une tâche
+async updateTaskStatus(taskId: string, status: TaskStatus): Promise<Task> {
+  return this.request<Task>(`/tasks/${taskId}/status`, {
+    method: "PATCH",
+    body: JSON.stringify({ status }),
+  });
+}
+async updateTaskDeadline(taskId: string, deadline: Date): Promise<Task> {
+  return this.request<Task>(`/tasks/${taskId}/deadline`, {
+    method: "PATCH",
+    body: JSON.stringify({ deadline }),
+  });
+}
+
+// Mettre à jour l’utilisateur assigné
+async updateTaskAssignedUser(taskId: string, userId: string): Promise<Task> {
+  return this.request<Task>(`/tasks/${taskId}/assign`, {
+    method: "PATCH",
+    body: JSON.stringify({ userId }),
+  });
+}
+
+// Mettre à jour le titre de la tâche
+async updateTaskTitle(taskId: string, title: string): Promise<Task> {
+  return this.request<Task>(`/tasks/${taskId}/title`, {
+    method: "PATCH",
+    body: JSON.stringify({ title }),
+  });
+}
+
+// Mettre à jour la description de la tâche
+async updateTaskDescription(taskId: string, description: string): Promise<Task> {
+  return this.request<Task>(`/tasks/${taskId}/description`, {
+    method: "PATCH",
+    body: JSON.stringify({ description }),
+  });
+}
+
+// Supprimer une tâche
+async deleteTask(taskId: string): Promise<void> {
+  return this.request<void>(`/tasks/${taskId}`, {
+    method: "DELETE",
+  });
+}
+
+// Récupérer toutes les tâches d’un événement
+async getTasksByEvent(eventId: string): Promise<Task[]> {
+  return this.request<Task[]>(`/tasks/event/${eventId}`);
+}
+
+// Récupérer toutes les tâches assignées à un utilisateur
+async getTasksByUser(userId: string): Promise<Task[]> {
+  return this.request<Task[]>(`/tasks/user/${userId}`);
+}
+
+
+
+// Récupérer le progrès des tâches pour un événement
+async getEventTaskProgress(eventId: string): Promise<EventTaskProgress> {
+  return this.request<EventTaskProgress>(`/tasks/event/${eventId}/progress`);
+}
+
+// Récupérer le progrès des tâches pour un utilisateur
+async getUserTaskProgress(userId: string): Promise<TaskProgress[]> {
+  return this.request<TaskProgress[]>(`/tasks/user/${userId}/progress`);
+}
+
+// Toggle le statut de complétion d'une tâche
+async toggleTaskCompletion(taskId: string, userId: string): Promise<Task> {
+  return this.request<Task>(`/tasks/${taskId}/toggle-completion/${userId}`, {
+    method: "PATCH",
+  });
+}
+
 }
 
 // Types

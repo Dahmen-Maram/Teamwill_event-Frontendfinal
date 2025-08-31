@@ -7,7 +7,7 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData()
 
-    const upstreamRes = await fetch("https://55bdba2649bf.ngrok-free.app/transcribe", {
+    const upstreamRes = await fetch("https://9d87def518cb.ngrok-free.app/transcribe", {
       method: "POST",
       body: formData,
     })

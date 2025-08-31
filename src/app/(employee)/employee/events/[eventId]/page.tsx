@@ -18,23 +18,22 @@ export default function EventDetailsPage() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    async function fetchData() {
+    (async () => {
       try {
-        const fetchedEvent = await apiService.getEvent(eventId)
+        const [fetchedEvent, fetchedParticipants, user] = await Promise.all([
+          apiService.getEvent(eventId),
+          apiService.getEventParticipants(eventId),
+          apiService.getCurrentUser(),
+        ])
         setEvent(fetchedEvent)
-
-        const fetchedParticipants = await apiService.getEventParticipants(eventId)
         setParticipants(fetchedParticipants)
-
-        const user = await apiService.getCurrentUser()
         setCurrentUser(user)
       } catch (error) {
         console.error("Erreur lors du chargement des détails :", error)
       } finally {
         setIsLoading(false)
       }
-    }
-    fetchData()
+    })()
   }, [eventId])
 
   if (isLoading || !event) {
@@ -78,7 +77,7 @@ export default function EventDetailsPage() {
       <button
         onClick={handleBack}
         aria-label="Retour"
-        className="text-green-600 hover:text-green-800 transition cursor-pointer mb-4 p-0"
+        className="text-primary hover:text-primary/80 transition cursor-pointer mb-4 p-0"
         style={{ background: "none", border: "none" }}
       >
         <ChevronLeft className="w-7 h-7" />
@@ -197,7 +196,7 @@ export default function EventDetailsPage() {
                       className="w-8 h-8 rounded-full object-cover border border-gray-300 shadow-sm"
                     />
                   ) : (
-                    <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-sm">
+                    <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-sm">
                       {p.user?.nom?.charAt(0).toUpperCase() ?? "?"}
                     </div>
                   )}

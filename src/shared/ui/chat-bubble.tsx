@@ -7,6 +7,7 @@ import { Badge } from "@/shared/ui/badge"
 import { FileText, Download, MoreVertical, Trash2 } from "lucide-react"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/shared/ui/dropdown-menu"
 import { useLanguage } from "@/lib/i18n"
+import { useTheme } from "next-themes"
 
 
 interface ChatBubbleProps {
@@ -17,6 +18,7 @@ interface ChatBubbleProps {
 // Removed debug log of language.
 
 export function ChatBubble({ message, isCurrentUser, onDelete }: ChatBubbleProps) {
+  const { theme } = useTheme()
   const formatTime = (timestamp: string) => {
     return new Date(timestamp).toLocaleTimeString("fr-FR", {
       hour: "2-digit",
@@ -24,6 +26,9 @@ export function ChatBubble({ message, isCurrentUser, onDelete }: ChatBubbleProps
     })
   }
 const { t } = useLanguage()
+
+// Debug pour voir le thème actuel
+console.log("Current theme:", theme)
   const renderFileContent = () => {
     if (message.type === "image" && message.fileUrl) {
       return (
@@ -73,17 +78,30 @@ const { t } = useLanguage()
   return (
     <div className={cn("flex gap-3 mb-4 animate-fade-in", isCurrentUser ? "flex-row-reverse" : "flex-row")}>
       <Avatar className="h-8 w-8 flex-shrink-0">
-        {message.avatarUrl && (
-          <AvatarImage src={message.avatarUrl} alt={message.userName} />
+        {message.avatarUrl ? (
+          <AvatarImage
+            src={message.avatarUrl}
+            alt={message.userName}
+            className="object-cover"
+            onError={(e) => {
+              const target = e.currentTarget as HTMLImageElement;
+              target.src = "/placeholder-user.jpg";
+            }}
+          />
+        ) : (
+          <AvatarFallback className="text-xs">
+            {message.userName.charAt(0).toUpperCase()}
+          </AvatarFallback>
         )}
-        <AvatarFallback className="text-xs">
-          {message.userName.charAt(0).toUpperCase()}
-        </AvatarFallback>
       </Avatar>
 
       <div className={cn("flex flex-col", isCurrentUser ? "items-end" : "items-start")}>
         <div className="flex items-center gap-2 mb-1">
-          <span className="text-sm font-medium">{message.userName}</span>
+          <span 
+            className="text-sm font-medium chat-bubble-username"
+          >
+            {message.userName}
+          </span>
           <Badge variant={message.userRole === "Responsable" ? "default" : "secondary"} className="text-xs">
             {message.userRole === "Responsable" ? "Responsable" : "Employé"}
           </Badge>
